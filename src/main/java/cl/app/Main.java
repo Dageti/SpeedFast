@@ -4,6 +4,9 @@ import cl.model.PedidoComida;
 import cl.model.PedidoEncomienda;
 import cl.model.PedidoExpress;
 
+/**
+ * Clase principal de SpeedFast.
+ */
 public class Main {
 	public static void main(String[] args) {
 

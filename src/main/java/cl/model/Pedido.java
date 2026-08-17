@@ -1,5 +1,9 @@
 package cl.model;
 
+/**
+ * Clase padre, representa un pedido genérico
+ *
+ */
 public class Pedido {
 	private String idPedido;
 	private String direccionEntrega;
@@ -11,10 +15,17 @@ public class Pedido {
 		this.tipoPedido = tipoPedido;
 	}
 
+	/**
+	 * Asigna un repartidor a un pedido mediante ID del pedido
+	 */
 	public void asignarRepartidor() {
 		System.out.println("asignando repartidor al pedido" + this.idPedido);
 	}
 
+	/**
+	 * Sobrecarga el metodo asignarRepartidor asignando un repartidor en específico mediante el nombre
+	 * @param nombreRepartidor nombre del Repartidor a cargo del pedido.
+	 */
 	public void asignarRepartidor(String nombreRepartidor) {
 		System.out.println("asignando pedido al repartidor: " + nombreRepartidor);
 	}

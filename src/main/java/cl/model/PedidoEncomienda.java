@@ -1,5 +1,9 @@
 package cl.model;
 
+/**
+ * Subclase de Pedido que representa una encomienda que requiere un pesaje previo para asegurar que sea un paquete válido
+ * hereda de {@link Pedido}
+ */
 public class PedidoEncomienda extends Pedido {
 	public PedidoEncomienda(String idPedido, String direccionEntrega, String tipoPedido) {
 		super(idPedido, direccionEntrega, tipoPedido);

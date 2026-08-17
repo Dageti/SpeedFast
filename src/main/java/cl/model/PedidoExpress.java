@@ -1,5 +1,10 @@
 package cl.model;
 
+/**
+ * Subclase de Pedido que representa un pedido de maxima prioridad que debe ser despachado en la próxima ruta
+ * hereda de {@link Pedido}
+ */
+
 public class PedidoExpress extends Pedido {
 	public PedidoExpress(String idPedido, String direccionEntrega, String tipoPedido) {
 		super(idPedido, direccionEntrega, tipoPedido);
