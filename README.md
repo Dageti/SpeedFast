@@ -19,12 +19,17 @@
 
 ## Modelos
 
-| Clase              | Descripción                                                                                    |
-|--------------------|------------------------------------------------------------------------------------------------|
-| `Pedido`           | Clase base con atributos comunes: idPedido, direccionEntrega y tipoPedido.                     |
-| `PedidoComida`     | Hereda de `Pedido`. Sobrescribe la asignación para requerir un repartidor con mochila térmica. |
-| `PedidoEncomienda` | Hereda de `Pedido`. Sobrescribe la asignación para incluir validación de peso y embalaje.      |
-| `PedidoExpress`    | Hereda de `Pedido`. Sobrescribe la asignación priorizando la proxima salida a ruta.            |
+| Clase              | Descripción                                                                                                                             |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `Pedido`           | Clase base abstacta con atributos comunes: idPedido, direccionEntrega y distanciaKm.                                                    |
+| `PedidoComida`     | Hereda de `Pedido`. su tiempo de entrega es 15 miutos + 2 minutos por kilometro.                                                        |
+| `PedidoEncomienda` | Hereda de `Pedido`. su tiempo de entrega es 20 miutos + 1.5 minutos por kilometro, ajustado a entero.                                   |
+| `PedidoExpress`    | Hereda de `Pedido`. su tiempo de entrega es 10 minutos, amenos que `distanciaKm` sea mayor a 5, en ese caso se agregan 5 minutos extra. |
+
+## Cambios semana 2: clases abstractas
+
+> - La clase `Pedido` fue modificada a abstracta para funcionar como plantilla para sus subclases.
+> - Agregada calculadora de tiempo de delivery en función a la distancia del pedido.
 
 ## Instrucciones de ejecución
 
