@@ -5,20 +5,25 @@ package cl.model;
  * hereda de {@link Pedido}
  */
 public class PedidoComida extends Pedido {
-	public PedidoComida(String idPedido, String direccionEntrega, String tipoPedido) {
-		super(idPedido, direccionEntrega, tipoPedido);
+	public PedidoComida(String idPedido, String direccionEntrega, double distanciaKM) {
+		super(idPedido, direccionEntrega, distanciaKM);
 
 	}
 
-
 	@Override
-	public void asignarRepartidor() {
-		System.out.println("asignando repartidor con mochila térmica para el pedido");
-	}
-
-	@Override
-	public void asignarRepartidor(String nombreRepartidor) {
-		System.out.println("Buscando repartidor con mochila térmica............... OK");
-		System.out.println("Asignando el pedido a " + nombreRepartidor + " pues posee mochila térmica");
+	public int calcularTiempoEntrega() {
+		return (int) (15 + (2 * (distanciaKm)));
 	}
 }
+
+//	@Override
+//	public void asignarRepartidor() {
+//		System.out.println("asignando repartidor con mochila térmica para el pedido");
+//	}
+
+//	@Override
+//	public void asignarRepartidor(String nombreRepartidor) {
+//		System.out.println("Buscando repartidor con mochila térmica............... OK");
+//		System.out.println("Asignando el pedido a " + nombreRepartidor + " pues posee mochila térmica");
+
+
