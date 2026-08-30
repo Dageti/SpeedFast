@@ -1,0 +1,79 @@
+@startuml
+class cl.service.ControladorDeEnvios {
+- List<Pedido> historialEntregas
++ void registrarPedido(Pedido)
++ void verHistorial()
+}
+
+
+interface cl.interfaces.Rastreable {
++ void verHistorial()
+}
+
+class cl.model.PedidoEncomienda {
++ void asignarRepartidor()
++ int calcularTiempoEntrega()
++ void mostrarResumen()
+}
+
+abstract class cl.model.Pedido {
+# String idPedido
+# String direccionEntrega
+# double distanciaKm
+# String repartidorAsignado
+# String estadoPedido
++ void asignarRepartidor(String)
++ {abstract}void asignarRepartidor()
++ {abstract}int calcularTiempoEntrega()
++ void mostrarResumen()
++ String getIdPedido()
++ void setIdPedido(String)
++ String getDireccionEntrega()
++ void setDireccionEntrega(String)
++ double getDistanciaKm()
++ void setDistanciaKm(double)
++ String getRepartidorAsignado()
++ void setRepartidorAsignado(String)
++ String getEstadoPedido()
++ void setEstadoPedido(String)
++ void despachar()
++ void cancelar()
++ void verHistorial()
++ String toString()
+}
+
+
+class cl.app.Main {
++ {static} void main(String[])
+}
+
+interface cl.interfaces.Cancelable {
++ void cancelar()
+}
+
+class cl.model.PedidoComida {
++ void asignarRepartidor()
++ int calcularTiempoEntrega()
++ void mostrarResumen()
+}
+
+interface cl.interfaces.Despachable {
++ void despachar()
+}
+
+class cl.model.PedidoExpress {
++ void asignarRepartidor()
++ int calcularTiempoEntrega()
++ void mostrarResumen()
+}
+
+
+
+cl.interfaces.Rastreable <|.. cl.service.ControladorDeEnvios
+cl.model.Pedido <|-- cl.model.PedidoEncomienda
+cl.interfaces.Cancelable <|.. cl.model.Pedido
+cl.interfaces.Despachable <|.. cl.model.Pedido
+cl.interfaces.Rastreable <|.. cl.model.Pedido
+cl.model.Pedido <|-- cl.model.PedidoComida
+cl.model.Pedido <|-- cl.model.PedidoExpress
+@enduml

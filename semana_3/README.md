@@ -2,40 +2,66 @@
 <p>
 </p>
 
-> Sistema de asignación de repartidores para la empresa de repartos SpeedFast.
-> Aplica los principios de Programación Orientada a Objetos mediante el uso de herencia, polimorfismo y sobrecarga de
-> métodos.
+> Sistema de asignación y despacho de pedidos para SpeedFast.
+> Aplica los principios de Programación Orientada a Objetos mediante herencia, clases
+> abstractas, polimorfismo (sobrecarga y sobrescritura) e interfaces.
 
-## Estructura
+## Estructura Semana 3
 
-    src/main/java/cl/
+    semana_3/src/main/java/cl/
     ├── app/
     │   └── Main.java
-    └── model/
-        ├── Pedido.java
-        ├── PedidoComida.java
-        ├── PedidoEncomienda.java
-        └── PedidoExpress.java
+    ├── interfaces/
+    │   ├── Despachable.java
+    │   ├── Cancelable.java
+    │   └── Rastreable.java
+    ├── model/
+    │   ├── Pedido.java
+    │   ├── PedidoComida.java
+    │   ├── PedidoEncomienda.java
+    │   └── PedidoExpress.java
+    └── service/
+        └── ControladorDeEnvios.java
 
 ## Modelos
 
-| Clase              | Descripción                                                                                                                             |
-|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `Pedido`           | Clase base abstacta con atributos comunes: idPedido, direccionEntrega y distanciaKm.                                                    |
-| `PedidoComida`     | Hereda de `Pedido`. su tiempo de entrega es 15 miutos + 2 minutos por kilometro.                                                        |
-| `PedidoEncomienda` | Hereda de `Pedido`. su tiempo de entrega es 20 miutos + 1.5 minutos por kilometro, ajustado a entero.                                   |
-| `PedidoExpress`    | Hereda de `Pedido`. su tiempo de entrega es 10 minutos, amenos que `distanciaKm` sea mayor a 5, en ese caso se agregan 5 minutos extra. |
+| Clase                 | Descripción                                                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `Pedido`              | Clase base abstracta con atributos comunes: idPedido, direccionEntrega, distanciaKm, repartidorAsignado y estadoPedido.       |
+| `PedidoComida`        | Hereda de `Pedido`. Su tiempo de entrega es 15 minutos + 2 minutos por kilómetro.                                             |
+| `PedidoEncomienda`    | Hereda de `Pedido`. Su tiempo de entrega es 20 minutos + 1.5 minutos por kilómetro, ajustado a entero.                        |
+| `PedidoExpress`       | Hereda de `Pedido`. Su tiempo de entrega es 10 minutos, a menos que `distanciaKm` sea mayor a 5, en cuyo caso son 15 minutos. |
+| `ControladorDeEnvios` | Servicio que registra los pedidos despachados/cancelados y expone el historial completo de entregas.                          |
 
-## Cambios semana 2: clases abstractas
+## Interfaces
 
-> - La clase `Pedido` fue modificada a abstracta para funcionar como plantilla para sus subclases.
-> - Agregada calculadora de tiempo de delivery en función a la distancia del pedido.
+| Interfaz      | Método           | Responsabilidad                         |
+|---------------|------------------|-----------------------------------------|
+| `Despachable` | `despachar()`    | Marca el pedido como despachado.        |
+| `Cancelable`  | `cancelar()`     | Marca el pedido como cancelado.         |
+| `Rastreable`  | `verHistorial()` | Muestra el historial/estado del pedido. |
+
+Las tres interfaces son implementadas por la clase abstracta `Pedido`, por lo que
+`PedidoComida`, `PedidoEncomienda` y `PedidoExpress` las heredan automáticamente
+(evitando código repetido entre subclases). `ControladorDeEnvios` implementa
+`Rastreable` de forma independiente para exponer el historial general del sistema.
+
+## Diagrama de clases generado con PUML
+
+![Diagrama de Clases UML](diagrama.png)
+
+## Cambios semana 3:
+
+> - Creadas interfaces `Despachable`, `Cancelable` y `Rastreable`.
+> - Clase `Pedido` ahora es abstracta y centraliza los contratos de comportamiento para eliminar duplicidad de código.
+> - Creado `ControladorDeServicios` que gestiona el historial de pedidos.
+> - Generado diagrama con PlantUML para automatizar el proceso en futuras entregas.
 
 ## Instrucciones de ejecución
 
 > - Clonar repositorio.
-> - Abrir en un IDE compatible con JAVA.
-> - Ejecutar `Main.java`
+> - Abrir la carpeta `semana_3` en un IDE compatible con Java (recomendado: IntelliJ IDEA).
+> - Ejecutar `Main.java`.
 
 ## Author
 

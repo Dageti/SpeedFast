@@ -1,10 +1,14 @@
 package cl.model;
 
+import cl.interfaces.Cancelable;
+import cl.interfaces.Despachable;
+import cl.interfaces.Rastreable;
+
 /**
  * Clase abstracta, base para cualquier pedido.
  * Define comportamientos mediante sobrecarga de métodos.
  */
-public abstract class Pedido {
+public abstract class Pedido implements Cancelable, Despachable, Rastreable {
 	protected String idPedido;
 	protected String direccionEntrega;
 	protected double distanciaKm;
@@ -38,11 +42,11 @@ public abstract class Pedido {
 	 * Método resumen reutilizable por subclases
 	 */
 	public void mostrarResumen() {
-		System.out.println("Pedido: " + this.idPedido);
-		System.out.println("Dirección: " + this.direccionEntrega);
-		System.out.println("Distancia: " + this.distanciaKm);
-		System.out.println("Repartidor Asignado: " + this.repartidorAsignado);
-		System.out.println("Tiempo estimado de espera: " + this.calcularTiempoEntrega() + " minutos.");
+		System.out.println("Pedido: " + idPedido);
+		System.out.println("Dirección: " + direccionEntrega);
+		System.out.println("Distancia: " + distanciaKm + " kilómetros.");
+		System.out.println("Repartidor Asignado: " + repartidorAsignado);
+		System.out.println("Tiempo estimado de espera: " + calcularTiempoEntrega() + " minutos.");
 	}
 
 	/**
@@ -89,11 +93,28 @@ public abstract class Pedido {
 	}
 
 	@Override
+	public void despachar() {
+		this.estadoPedido = "Despachado";
+		System.out.println("Pedido despachado exitosamente.");
+	}
+
+	@Override
+	public void cancelar() {
+		this.estadoPedido = "Cancelado";
+		System.out.println("Pedido cancelado exitosamente.");
+	}
+
+	@Override
+	public void verHistorial() {
+		System.out.println("Pedido: " + idPedido + "| Estado: " + estadoPedido + "Repartidor asignado" + repartidorAsignado);
+	}
+
+	@Override
 	public String toString() {
 		return "Resumen Pedido" +
 				"ID Pedido: " + idPedido + "\n" +
 				"Dirección de entrega: " + direccionEntrega + "\n" +
-				"Distancia: " + distanciaKm + "Km\n" +
+				"Distancia: " + distanciaKm + " Km\n" +
 				"Repartidor Asignado: " + repartidorAsignado + "\n" +
 				"Estado: " + estadoPedido;
 	}
