@@ -3,12 +3,12 @@
 </p>
 
 > Sistema de asignación y despacho de pedidos para SpeedFast.
-> Aplica los principios de Programación Orientada a Objetos mediante herencia, clases
+> Aplica los principios de Programación Orientada a Objetos mediante herencia, clases e hilos
 > abstractas, polimorfismo (sobrecarga y sobrescritura) e interfaces.
 
-## Estructura Semana 3
+## Estructura Semana 4
 
-    semana_3/src/main/java/cl/
+    semana_4/src/main/java/cl/
     ├── app/
     │   └── Main.java
     ├── interfaces/
@@ -19,9 +19,10 @@
     │   ├── Pedido.java
     │   ├── PedidoComida.java
     │   ├── PedidoEncomienda.java
-    │   └── PedidoExpress.java
+    │   ├── PedidoExpress.java
+    │   └── Repartidor.java
     └── service/
-        └── ControladorDeEnvios.java
+    └── ControladorDeEnvios.java
 
 ## Modelos
 
@@ -32,6 +33,7 @@
 | `PedidoEncomienda`    | Hereda de `Pedido`. Su tiempo de entrega es 20 minutos + 1.5 minutos por kilómetro, ajustado a entero.                        |
 | `PedidoExpress`       | Hereda de `Pedido`. Su tiempo de entrega es 10 minutos, a menos que `distanciaKm` sea mayor a 5, en cuyo caso son 15 minutos. |
 | `ControladorDeEnvios` | Servicio que registra los pedidos despachados/cancelados y expone el historial completo de entregas.                          |
+| `Repartidor`          | implementa `Runnable` Representa un repartidor y sus pedidos asignados mediante hilo independiente.                           |
 
 ## Interfaces
 
@@ -48,19 +50,18 @@ Las tres interfaces son implementadas por la clase abstracta `Pedido`, por lo qu
 
 ## Diagrama de clases generado con PUML
 
-![Diagrama de Clases UML](diagrama.png)
+![Diagrama de Clases UML](diagrama_semana4.png)
 
-## Cambios semana 3:
+## Cambios semana 4:
 
-> - Creadas interfaces `Despachable`, `Cancelable` y `Rastreable`.
-> - Clase `Pedido` ahora es abstracta y centraliza los contratos de comportamiento para eliminar duplicidad de código.
-> - Creado `ControladorDeServicios` que gestiona el historial de pedidos.
-> - Generado diagrama con PlantUML para automatizar el proceso en futuras entregas.
+> - Creada clase Repartidor implementa `Runnable`.
+> - Creada simulación de entregas con pausas aleatorias `Thread.sleep`.
+> - implementado `ExecutorService` para gestionar hilos e `InterruptedExcecution` para manejo de excepciones.
 
 ## Instrucciones de ejecución
 
 > - Clonar repositorio.
-> - Abrir la carpeta `semana_3` en un IDE compatible con Java (recomendado: IntelliJ IDEA).
+> - Abrir la carpeta `semana_4` en un IDE compatible con Java (recomendado: IntelliJ IDEA).
 > - Ejecutar `Main.java`.
 
 ## Author

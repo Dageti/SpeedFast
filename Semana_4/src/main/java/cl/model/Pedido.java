@@ -106,7 +106,7 @@ public abstract class Pedido implements Cancelable, Despachable, Rastreable {
 
 	@Override
 	public void verHistorial() {
-		System.out.println("Pedido: " + idPedido + "| Estado: " + estadoPedido + "Repartidor asignado" + repartidorAsignado);
+		System.out.println("Pedido: " + idPedido + "| Estado: " + estadoPedido + " Repartidor asignado" + repartidorAsignado);
 	}
 
 	@Override

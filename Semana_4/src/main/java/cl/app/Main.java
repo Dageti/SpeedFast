@@ -1,53 +1,69 @@
 package cl.app;
 
-import cl.model.PedidoComida;
-import cl.model.PedidoEncomienda;
-import cl.model.PedidoExpress;
+import cl.model.*;
 import cl.service.ControladorDeEnvios;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Clase principal y punto de acceso a SpeedFast.
- * Simula despachos mediante sobreescritura y sobrecarga.
+ * Simula despachos mediante hilos.
  */
 public class Main {
 	public static void main(String[] args) {
+		System.out.println("========= Simulación de entregas =========");
 
 		ControladorDeEnvios controlador = new ControladorDeEnvios();
 
-		/**
-		 * Asignación por Sobrecarga.
-		 */
-		PedidoComida pedidoComida = new PedidoComida("001", "Calle Wallaby, 42, Sydney", 2.0);
-		pedidoComida.asignarRepartidor("Philip J. Fry");
-		pedidoComida.mostrarResumen();
-		pedidoComida.despachar();
-		controlador.registrarPedido(pedidoComida);
+		Pedido pedido1 = new PedidoExpress("Ex001", "Providencia 3214", 5);
+		Pedido pedido2 = new PedidoComida("Co001", "San Joaquin 1212", 7);
+		Pedido pedido3 = new PedidoEncomienda("En001", "Estación Central 212", 15);
+		Pedido pedido4 = new PedidoComida("Co002", "Maipú 2331", 43);
+		Pedido pedido5 = new PedidoComida("Co003", "La cisterna 234", 8);
+		Pedido pedido6 = new PedidoEncomienda("En002", "Estación Central 567", 3);
 
-		/**
-		 * Asignación por Sobreescritura.
-		 */
-		PedidoEncomienda pedidoEncomienda = new PedidoEncomienda("002", "Avenida siempre viva, 742, Springfield", 12);
-		pedidoEncomienda.asignarRepartidor();
-		pedidoEncomienda.mostrarResumen();
-		pedidoEncomienda.despachar();
-		controlador.registrarPedido(pedidoEncomienda);
+		Repartidor repartidor1 = new Repartidor("Jose Luis Lucas Juan");
+		Repartidor repartidor2 = new Repartidor("Miguel Bosé");
+		Repartidor repartidor3 = new Repartidor("Policarpo");
 
-		System.out.println();
+		repartidor1.agregarPedido(pedido1);
+		repartidor1.agregarPedido(pedido2);
 
-		/**
-		 * Test de envío cancelado.
-		 */
-		PedidoExpress pedidoExpress = new PedidoExpress("003", "Calle Vicuña Mackenna, 2252, Santiago", 22);
-		pedidoExpress.asignarRepartidor("Jose Luis Lucas Juan");
-		System.out.println("Cancelando pedido express: " + pedidoExpress.getIdPedido());
-		pedidoExpress.cancelar();
-		controlador.registrarPedido(pedidoExpress);
+		repartidor2.agregarPedido(pedido3);
+		repartidor2.agregarPedido(pedido4);
 
-		System.out.println();
+		repartidor3.agregarPedido(pedido5);
+		repartidor3.agregarPedido(pedido6);
 
-		/**
-		 * impresión de historial completo.
-		 */
+		List<Pedido> pedidos = List.of(pedido1, pedido2, pedido3, pedido4, pedido5, pedido6);
+		for (Pedido pedido : pedidos) {
+			controlador.registrarPedido(pedido);
+		}
+
+		ExecutorService executor = Executors.newFixedThreadPool(3);
+
+		System.out.println("----- Inicio de recorridos -----");
+
+		executor.execute(repartidor1);
+		executor.execute(repartidor2);
+		executor.execute(repartidor3);
+		executor.shutdown();
+		try {
+			boolean finalizado = executor.awaitTermination(60, TimeUnit.SECONDS);
+
+			if (finalizado) {
+				System.out.println("========= Las entregas han sido completadas =========");
+			} else {
+				System.out.println("Se acabó la jornada laboral antes de finalizar las entregas");
+			}
+		} catch (InterruptedException e) {
+			System.err.println("Error " + e.getMessage());
+		}
+		System.out.println("========= Historial =========");
 		controlador.verHistorial();
 	}
 

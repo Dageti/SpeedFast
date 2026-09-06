@@ -19,6 +19,7 @@ public class ControladorDeEnvios implements Rastreable {
 
 	/**
 	 * Registra un pedido en el historial.
+	 *
 	 * @param pedido Pedido a registrar.
 	 */
 	public void registrarPedido(Pedido pedido) {
@@ -27,7 +28,6 @@ public class ControladorDeEnvios implements Rastreable {
 
 	@Override
 	public void verHistorial() {
-		System.out.println("Historial: ");
 		for (Pedido pedido : historialEntregas) {
 			String tipoPedido = pedido.getClass().getSimpleName();
 			System.out.println("Pedido:" + pedido.getIdPedido() + ", Tipo pedido: " + tipoPedido + ", Repartidor: " + pedido.getRepartidorAsignado() + ", estado: " + pedido.getEstadoPedido());
