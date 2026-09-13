@@ -1,4 +1,10 @@
 package cl.model;
 
-public class EstadoPedido {
+/**
+ * Define los posibles estados del ciclo de vida de un pedido.
+ */
+public enum EstadoPedido {
+	PENDIENTE,
+	EN_REPARTO,
+	ENTREGADO
 }
