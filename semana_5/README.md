@@ -3,60 +3,42 @@
 </p>
 
 > Sistema de asignación y despacho de pedidos para SpeedFast.
-> Aplica los principios de Programación Orientada a Objetos mediante herencia, clases e hilos
-> abstractas, polimorfismo (sobrecarga y sobrescritura) e interfaces.
+> Aplica los principios de Programación Orientada a Objetos mediante herencia, clases e hilos.
+> Sincronizado como sistema concurrente.
+>
 
 ## Estructura Semana 5
 
-    semana_4/src/main/java/cl/
+    semana_5/
+    ├── pom.xml
+    ├── README.md
+    └── src/
+    └── main/
+    └── java/
+    └── cl/
     ├── app/
     │   └── Main.java
-    ├── interfaces/
-    │   ├── Despachable.java
-    │   ├── Cancelable.java
-    │   └── Rastreable.java
     ├── model/
-    │   ├── Pedido.java
-    │   ├── PedidoComida.java
-    │   ├── PedidoEncomienda.java
-    │   ├── PedidoExpress.java
-    │   └── Repartidor.java
-    └── service/
-    └── ControladorDeEnvios.java
+    │   ├── EstadoPedido.java
+    │   └── Pedido.java
+    ├── service/
+    │   └── ZonaDeCarga.java
+    └── threads/
+    └── Repartidor.java
 
 ## Modelos
 
-| Clase                 | Descripción                                                                                                                   |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `Pedido`              | Clase base abstracta con atributos comunes: idPedido, direccionEntrega, distanciaKm, repartidorAsignado y estadoPedido.       |
-| `PedidoComida`        | Hereda de `Pedido`. Su tiempo de entrega es 15 minutos + 2 minutos por kilómetro.                                             |
-| `PedidoEncomienda`    | Hereda de `Pedido`. Su tiempo de entrega es 20 minutos + 1.5 minutos por kilómetro, ajustado a entero.                        |
-| `PedidoExpress`       | Hereda de `Pedido`. Su tiempo de entrega es 10 minutos, a menos que `distanciaKm` sea mayor a 5, en cuyo caso son 15 minutos. |
-| `ControladorDeEnvios` | Servicio que registra los pedidos despachados/cancelados y expone el historial completo de entregas.                          |
-| `Repartidor`          | implementa `Runnable` Representa un repartidor y sus pedidos asignados mediante hilo independiente.                           |
-
-## Interfaces
-
-| Interfaz      | Método           | Responsabilidad                         |
-|---------------|------------------|-----------------------------------------|
-| `Despachable` | `despachar()`    | Marca el pedido como despachado.        |
-| `Cancelable`  | `cancelar()`     | Marca el pedido como cancelado.         |
-| `Rastreable`  | `verHistorial()` | Muestra el historial/estado del pedido. |
-
-Las tres interfaces son implementadas por la clase abstracta `Pedido`, por lo que
-`PedidoComida`, `PedidoEncomienda` y `PedidoExpress` las heredan automáticamente
-(evitando código repetido entre subclases). `ControladorDeEnvios` implementa
-`Rastreable` de forma independiente para exponer el historial general del sistema.
+| Clase          | Descripción                                                                           |
+|----------------|---------------------------------------------------------------------------------------|
+| `EstadoPedido` | Enum que categoriza el estado de los pedidos: `PENDIENTE`, `EN_REPARTO`, `ENTREGADO`. |
+| `Pedido`       | Representa el pedido con una ID, dirección a despachar y estado del pedido.           |
+| `ZonaDeCarga`  | Almacena los pedidos en `List<Pedido>` y sincroniza mediante `synchronized`.          |
+| `Repartidor`   | Retira los pedidos e implementa `Runnable`. Simula la entrega.                        |
+| `Main`         | Clase principal y punto de entrada. Inicializa la zona de carga e hilos.              |
 
 ## Diagrama de clases generado con PUML
 
-![Diagrama de Clases UML](diagrama_semana4.png)
-
-## Cambios semana 5:
-
-> - Creada clase Repartidor implementa `Runnable`.
-> - Creada simulación de entregas con pausas aleatorias `Thread.sleep`.
-> - implementado `ExecutorService` para gestionar hilos e `InterruptedExcecution` para manejo de excepciones.
+![Diagrama de Clases UML](diagrama_semana5.png)
 
 ## Instrucciones de ejecución
 

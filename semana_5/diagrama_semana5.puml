@@ -1,0 +1,45 @@
+@startuml
+class cl.threads.Repartidor {
+- String nombre
+- ZonaDeCarga zonaDeCarga
++ String getNombre()
++ void run()
+}
+
+
+enum cl.model.EstadoPedido {
++  PENDIENTE
++  EN_REPARTO
++  ENTREGADO
+}
+
+class cl.app.Main {
++ {static} void main(String[])
+}
+
+class cl.model.Pedido {
+- int id
+- String direccion
+- EstadoPedido estado
++ void setEstado(String)
++ int getId()
++ String getDireccion()
++ EstadoPedido getEstado()
++ void setEstado(EstadoPedido)
++ String toString()
+}
+
+
+class cl.service.ZonaDeCarga {
+- List<Pedido> pedidosPendientes
++ void agregarPedido(Pedido)
++ Pedido retirarPedido()
++ boolean hayPedidos()
++ int cantidadPedidosRestantes()
+}
+
+
+
+
+cl.threads.Runnable <|.. cl.threads.Repartidor
+@enduml
