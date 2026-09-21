@@ -41,5 +41,5 @@ class cl.service.ZonaDeCarga {
 
 
 
-cl.threads.Runnable <|.. cl.threads.Repartidor
+java.lang.Runnable <|.. cl.threads.Repartidor
 @enduml
