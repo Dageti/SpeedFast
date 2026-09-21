@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 
+
 public class VentanaPrincipal extends JFrame {
 
 	private final ControladorDeEnvios controlador;
@@ -20,30 +21,29 @@ public class VentanaPrincipal extends JFrame {
 		this.controlador = controlador;
 
 		setTitle("SpeedFast - Gestor de envíos");
-		setSize(450, 420);
+		setSize(760, 220);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setLayout(new BorderLayout(15, 15));
+		setLayout(new BorderLayout(10, 10));
 
 		JPanel panelSuperior = new JPanel(new GridLayout(2, 1, 5, 5));
-		panelSuperior.setBorder(new EmptyBorder(20, 20, 10, 20));
+		panelSuperior.setBorder(new EmptyBorder(15, 15, 15, 15));
 
 		JLabel labelTitulo = new JLabel("Sistema de repartos SpeedFast", SwingConstants.CENTER);
-		labelTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-		JLabel labelSubtitulo = new JLabel("Pedidos", SwingConstants.CENTER);
-		labelSubtitulo.setFont(new Font("Arial", Font.PLAIN, 14));
+		labelTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+		JLabel labelSubtitulo = new JLabel("Gestión de Pedidos", SwingConstants.CENTER);
+		labelSubtitulo.setFont(new Font("Arial", Font.PLAIN, 13));
 
 		panelSuperior.add(labelTitulo);
 		panelSuperior.add(labelSubtitulo);
 		add(panelSuperior, BorderLayout.NORTH);
 
-
-		JPanel panelCentro = new JPanel(new GridLayout(4, 1, 5, 10));
-		panelCentro.setBorder(new EmptyBorder(25, 25, 25, 25));
+		JPanel panelCentro = new JPanel(new FlowLayout(FlowLayout.CENTER, 12, 15));
+		panelCentro.setBorder(new EmptyBorder(15, 15, 15, 15));
 		btnRegistrarPedido = new JButton("Registrar pedido");
 		btnListarPedidos = new JButton("Listar pedidos");
-		btnAsignarEnviarPedido = new JButton("Asignar pedido e iniciar entrega");
+		btnAsignarEnviarPedido = new JButton("Asignar e iniciar entrega");
 		btnSalir = new JButton("Salir");
 
 		panelCentro.add(btnRegistrarPedido);
