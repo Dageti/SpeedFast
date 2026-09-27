@@ -13,8 +13,6 @@ public class VentanaRegistroPedido extends JFrame {
 
 	private final ControladorDeEnvios controlador;
 	private final VentanaPrincipal ventanaPrincipal;
-
-	private JTextField txtPedido;
 	private JTextField txtDireccion;
 	private JTextField txtDistancia;
 	JComboBox<String> comboTipoPedido;
@@ -48,13 +46,8 @@ public class VentanaRegistroPedido extends JFrame {
 		panelSuperior.add(labeltitulo);
 		add(panelSuperior, BorderLayout.NORTH);
 
-		JPanel panelFormulario = new JPanel(new GridLayout(4, 2, 10, 15));
+		JPanel panelFormulario = new JPanel(new GridLayout(3, 2, 10, 15));
 		panelFormulario.setBorder(new EmptyBorder(15, 15, 15, 15));
-
-		JLabel labelID = new JLabel("ID del pedido:");
-		txtPedido = new JTextField();
-		panelFormulario.add(labelID);
-		panelFormulario.add(txtPedido);
 
 		JLabel labelDireccion = new JLabel("Dirección de entrega:");
 		txtDireccion = new JTextField();
@@ -93,20 +86,13 @@ public class VentanaRegistroPedido extends JFrame {
 	}
 
 	private void guardarPedido() {
-		String id = txtPedido.getText().trim();
 		String direccion = txtDireccion.getText().trim();
 		String strDistancia = txtDistancia.getText().trim();
 		String tipo = (String) comboTipoPedido.getSelectedItem();
 
-		if (id.isEmpty() || direccion.isEmpty() || strDistancia.isEmpty() || tipo.isEmpty()) {
+		if (direccion.isEmpty() || strDistancia.isEmpty() || tipo.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
 			return;
-		}
-		for (Pedido p : controlador.getListaPedidos()) {
-			if (p.getIdPedido().equalsIgnoreCase(id)) {
-				JOptionPane.showMessageDialog(this, "El pedido ya existe", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
 		}
 		double distancia;
 		try {
@@ -121,24 +107,23 @@ public class VentanaRegistroPedido extends JFrame {
 			return;
 		}
 		Pedido nuevoPedido;
-		if ("Comida".equals(tipo)) {
-			nuevoPedido = new PedidoComida(id, direccion, distancia);
-		} else if ("Encomienda".equals(tipo)) {
-			nuevoPedido = new PedidoEncomienda(id, direccion, distancia);
+		if ("Comida".equalsIgnoreCase(tipo)) {
+			nuevoPedido = new PedidoComida("0", direccion, distancia);
+		} else if ("Encomienda".equalsIgnoreCase(tipo)) {
+			nuevoPedido = new PedidoEncomienda("0", direccion, distancia);
 		} else {
-			nuevoPedido = new PedidoExpress(id, direccion, distancia);
+			nuevoPedido = new PedidoExpress("0", direccion, distancia);
 		}
 		controlador.registrarPedido(nuevoPedido);
-		JOptionPane.showMessageDialog(this, "Pedido registrado con éxito", "Info", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Pedido registrado con éxito. ID: " + nuevoPedido.getIdPedido(), "Info", JOptionPane.INFORMATION_MESSAGE);
 		limpiarFormulario();
 	}
 
 	private void limpiarFormulario() {
-		txtPedido.setText("");
 		txtDireccion.setText("");
 		txtDistancia.setText("");
 		comboTipoPedido.setSelectedIndex(0);
-		txtPedido.requestFocus();
+		txtDireccion.requestFocus();
 	}
 
 	private void volverAlMenu() {

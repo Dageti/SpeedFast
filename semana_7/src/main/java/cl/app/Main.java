@@ -1,21 +1,17 @@
 package cl.app;
 
-import cl.dao.ConnectionDB;
+import cl.services.ControladorDeEnvios;
+import cl.view.VentanaPrincipal;
 
-import java.sql.SQLException;
-import java.sql.Connection;
-
+import javax.swing.*;
 
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("test conexión a bd");
-		try (Connection conexion = ConnectionDB.conectar()) {
-			if (conexion != null) {
-				System.out.println("Conectado");
-			}
-		} catch (SQLException e) {
-			System.err.println("Error al conectar con db: " + e.getMessage());
-		}
-
+		SwingUtilities.invokeLater(() -> {
+			ControladorDeEnvios controlador = new ControladorDeEnvios();
+			VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(controlador);
+			ventanaPrincipal.setVisible(true);
+		});
 	}
 }
+

@@ -1,11 +1,12 @@
 package cl.view;
 
+
+import cl.model.Repartidor;
 import cl.services.ControladorDeEnvios;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-
 
 
 public class VentanaPrincipal extends JFrame {
@@ -16,6 +17,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnListarPedidos;
 	private JButton btnAsignarEnviarPedido;
 	private JButton btnSalir;
+	private JButton btnRegistrarRepartidor;
 
 	public VentanaPrincipal(ControladorDeEnvios controlador) {
 		this.controlador = controlador;
@@ -44,11 +46,14 @@ public class VentanaPrincipal extends JFrame {
 		btnRegistrarPedido = new JButton("Registrar pedido");
 		btnListarPedidos = new JButton("Listar pedidos");
 		btnAsignarEnviarPedido = new JButton("Asignar e iniciar entrega");
+		btnRegistrarRepartidor = new JButton("Registrar repartidor");
+
 		btnSalir = new JButton("Salir");
 
 		panelCentro.add(btnRegistrarPedido);
 		panelCentro.add(btnListarPedidos);
 		panelCentro.add(btnAsignarEnviarPedido);
+		panelCentro.add(btnRegistrarRepartidor);
 		panelCentro.add(btnSalir);
 		add(panelCentro, BorderLayout.CENTER);
 
@@ -71,6 +76,18 @@ public class VentanaPrincipal extends JFrame {
 			VentanaAsignacionEntrega ventanaAsignacion = new VentanaAsignacionEntrega(controlador, this);
 			ventanaAsignacion.setVisible(true);
 			this.setVisible(false);
+		});
+		btnRegistrarRepartidor.addActionListener(e -> {
+			String nombre = JOptionPane.showInputDialog(this, "Ingrese el nombre del Repartidor:", "Registar Rpartidor", JOptionPane.QUESTION_MESSAGE);
+			if (nombre != null && !nombre.trim().isEmpty()) {
+				Repartidor nuevoRepartidor = new Repartidor(nombre.trim());
+				boolean guardado = controlador.registrarRepartidor(nuevoRepartidor);
+				if (guardado) {
+					JOptionPane.showMessageDialog(null, "Repartidor registado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error al registrar el repartidor", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		});
 		btnSalir.addActionListener(e -> {
 			int confirm = JOptionPane.showConfirmDialog(

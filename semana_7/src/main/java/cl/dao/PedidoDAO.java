@@ -1,6 +1,7 @@
 package cl.dao;
 
 import cl.model.*;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,13 +9,14 @@ import java.util.List;
 public class PedidoDAO {
 
 	public boolean guardar(Pedido pedido) {
-		String sql = "INSERT INTO pedido (direccion, tipo, estado) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO pedido (direccion, tipo, estado, distancia_km) VALUES (?, ?, ?, ?)";
 		try (Connection connection = ConnectionDB.conectar();
 		     PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
 			pst.setString(1, pedido.getDireccionEntrega());
 			pst.setString(2, pedido.getTipo());
 			pst.setString(3, pedido.getEstadoPedido());
+			pst.setDouble(4, pedido.getDistanciaKm());
 
 			int filas = pst.executeUpdate();
 			if (filas > 0) {
@@ -33,7 +35,11 @@ public class PedidoDAO {
 
 	public List<Pedido> listarTodos() {
 		List<Pedido> lista = new ArrayList<>();
-		String sql = "SELECT id, direccion, tipo, estado FROM pedido ORDER BY id ASC";
+		String sql = "SELECT p.id, p.direccion, p.tipo, p.estado, p.distancia_km, r.nombre AS repartidor " +
+				"FROM pedido p " +
+				"LEFT JOIN entrega e ON p.id = e.id_pedido " +
+				"LEFT JOIN repartidor r ON e.id_repartidor = r.id " +
+				"ORDER BY p.id ASC";
 
 		try (Connection connection = ConnectionDB.conectar();
 		     PreparedStatement pst = connection.prepareStatement(sql);
@@ -44,16 +50,22 @@ public class PedidoDAO {
 				String direccion = rs.getString("direccion");
 				String tipo = rs.getString("tipo");
 				String estado = rs.getString("estado");
+				double distancia = rs.getDouble("distancia_km");
+				String repartidor = rs.getString("repartidor");
+
 
 				Pedido p;
 				if ("Comida".equalsIgnoreCase(tipo)) {
-					p = new PedidoComida(id, direccion, 5.0);
+					p = new PedidoComida(id, direccion, distancia);
 				} else if ("Encomienda".equalsIgnoreCase(tipo)) {
-					p = new PedidoEncomienda(id, direccion, 8.0);
+					p = new PedidoEncomienda(id, direccion, distancia);
 				} else {
-					p = new PedidoExpress(id, direccion, 3.0);
+					p = new PedidoExpress(id, direccion, distancia);
 				}
 				p.setEstadoPedido(estado);
+				if (repartidor != null && !repartidor.isEmpty()) {
+					p.setRepartidorAsignado(repartidor);
+				}
 				lista.add(p);
 			}
 		} catch (SQLException e) {

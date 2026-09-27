@@ -71,7 +71,7 @@ public class VentanaAsignacionEntrega extends JFrame {
 			int asignados = controlador.asignarRepartidores();
 			txtConsola.append("Asignando repartidores a pedidos pendientes...\n");
 			for (Pedido p : controlador.getListaPedidos()) {
-				if ("repartidor asignado".equalsIgnoreCase(p.getEstadoPedido())) {
+				if ("EN_REPARTO".equalsIgnoreCase(p.getEstadoPedido())) {
 					txtConsola.append("Pedido " + p.getIdPedido() + " (" + p.getTipo() + ") asignado a: " + p.getRepartidorAsignado() + "\n");
 				}
 			}

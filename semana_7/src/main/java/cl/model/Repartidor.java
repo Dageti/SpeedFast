@@ -20,6 +20,11 @@ public class Repartidor implements Runnable {
 		pedidosAsignados = new ArrayList<>();
 	}
 
+	public Repartidor(String nombre) {
+		this.nombre = nombre;
+		this.pedidosAsignados = new ArrayList<>();
+	}
+
 	public Repartidor(String nombre, List<Pedido> pedidosAsignados) {
 		this.nombre = nombre;
 		this.pedidosAsignados = pedidosAsignados != null ? new ArrayList<>(pedidosAsignados) : new ArrayList<>();
